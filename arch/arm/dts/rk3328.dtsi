@@ -337,6 +337,20 @@
 		};
 	};
 
+	efuse: efuse@ff260000 {
+		compatible = "rockchip,rk3328-efuse";
+		reg = <0x0 0xff260000 0x0 0x80>;
+		#address-cells = <1>;
+		#size-cells = <1>;
+		clocks = <&cru SCLK_EFUSE>;
+		clock-names = "pclk_efuse";
+
+		/* Data cells */
+		cpu_id: cpu-id@7 {
+			reg = <0x07 0x10>;
+		};
+	};
+
 	saradc: saradc@ff280000 {
 		compatible = "rockchip,rk3328-saradc", "rockchip,saradc";
 		reg = <0x0 0xff280000 0x0 0x100>;
