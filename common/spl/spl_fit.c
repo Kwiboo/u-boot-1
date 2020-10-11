@@ -278,8 +278,10 @@ static int spl_load_fit_image(struct spl_load_info *info, ulong sector,
 
 	if (external_data) {
 		/* External data */
-		if (fit_image_get_data_size(fit, node, &len))
+		if (fit_image_get_data_size(fit, node, &len)) {
+			puts("Cannot get external data size\n");
 			return -ENOENT;
+		}
 
 		load_ptr = (load_addr + align_len) & ~align_len;
 		length = len;
@@ -289,8 +291,10 @@ static int spl_load_fit_image(struct spl_load_info *info, ulong sector,
 
 		if (info->read(info,
 			       sector + get_aligned_image_offset(info, offset),
-			       nr_sectors, (void *)load_ptr) != nr_sectors)
+			       nr_sectors, (void *)load_ptr) != nr_sectors) {
+			puts("Cannot read external data\n");
 			return -EIO;
+		}
 
 		debug("External data: dst=%lx, offset=%x, size=%lx\n",
 		      load_ptr, offset, (unsigned long)length);
