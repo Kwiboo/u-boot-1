@@ -9,7 +9,7 @@
 
 / {
 	model = "Rockchip RK3288 Asus Tinker Board S";
-	compatible = "asus,rk3288-tinker-s", "rockchip,rk3288";
+	compatible = "asus,rk3288-tinker-s", "rockchip,rk3288-tinker", "rockchip,rk3288";
 
 	chosen {
 		stdout-path = &uart2;
