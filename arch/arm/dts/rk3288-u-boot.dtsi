@@ -41,6 +41,16 @@
 	u-boot,dm-pre-reloc;
 };
 
+&emmc {
+	/* mmc to sram can't do dma, prevent aborts transfering OPTEE parts */
+	u-boot,spl-fifo-mode;
+};
+
+&sdmmc {
+	/* mmc to sram can't do dma, prevent aborts transfering OPTEE parts */
+	u-boot,spl-fifo-mode;
+};
+
 &pmu {
 	u-boot,dm-pre-reloc;
 };

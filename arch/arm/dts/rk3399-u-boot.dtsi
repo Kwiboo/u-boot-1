@@ -115,6 +115,9 @@
 &sdhci {
 	max-frequency = <200000000>;
 	u-boot,dm-pre-reloc;
+
+	/* mmc to sram can't do dma, prevent aborts transferring TF-A parts */
+	u-boot,spl-fifo-mode;
 };
 
 &sdmmc {
