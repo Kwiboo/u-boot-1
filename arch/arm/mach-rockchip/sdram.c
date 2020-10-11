@@ -42,7 +42,15 @@ int dram_init_banksize(void)
 #ifdef CONFIG_ARM64
 	/* Reserve 0x200000 for ATF bl31 */
 	gd->bd->bi_dram[0].start = 0x200000;
+#if CONFIG_NR_DRAM_BANKS == 2
+	gd->bd->bi_dram[0].size = 0x8400000 - gd->bd->bi_dram[0].start;
+	/* Reserve 32M for OPTEE with TA */
+	gd->bd->bi_dram[1].start = gd->bd->bi_dram[0].start
+				+ gd->bd->bi_dram[0].size + 0x2000000;
+	gd->bd->bi_dram[1].size = top - gd->bd->bi_dram[1].start;
+#else
 	gd->bd->bi_dram[0].size = top - gd->bd->bi_dram[0].start;
+#endif
 #else
 #ifdef CONFIG_SPL_OPTEE
 	struct tos_parameter_t *tos_parameter;
@@ -61,7 +69,7 @@ int dram_init_banksize(void)
 		gd->bd->bi_dram[0].start = CONFIG_SYS_SDRAM_BASE;
 		gd->bd->bi_dram[0].size = 0x8400000;
 		/* Reserve 32M for OPTEE with TA */
-		gd->bd->bi_dram[1].start = CONFIG_SYS_SDRAM_BASE
+		gd->bd->bi_dram[1].start = gd->bd->bi_dram[0].start
 					+ gd->bd->bi_dram[0].size + 0x2000000;
 		gd->bd->bi_dram[1].size = top - gd->bd->bi_dram[1].start;
 	}
